@@ -17,10 +17,63 @@ Public package containing shared error boundary and error-handling utilities for
 npm install @plasius/error
 ```
 
+## Module formats
+
+`@plasius/error` ships dual module outputs:
+
+- ESM via `exports.import` (`dist/index.js`)
+- CJS via `exports.require` (`dist-cjs/index.js`, explicitly marked CommonJS)
+
 ## Usage
 
 ```ts
 import { ErrorBoundary } from "@plasius/error";
+```
+
+### Error reporting with `@plasius/analytics`
+
+`ErrorBoundary` can forward captured errors into an analytics-compatible client:
+
+```tsx
+import { ErrorBoundary } from "@plasius/error";
+import { createFrontendAnalyticsClient } from "@plasius/analytics";
+
+const analytics = createFrontendAnalyticsClient({
+  source: "sharedcomponents",
+  endpoint: "https://analytics.example.com/collect",
+});
+
+<ErrorBoundary
+  name="CheckoutBoundary"
+  analyticsClient={analytics}
+  errorContext={{ feature: "checkout" }}
+>
+  <CheckoutPage />
+</ErrorBoundary>;
+```
+
+The boundary forwards a minimal report (`boundary`, `error`, component stack, severity, context), and `@plasius/analytics` handles sanitization and secure transport rules.
+
+### Whole application crash capture
+
+`installGlobalCrashReporter` captures crashes outside React boundaries where available:
+- browser: `window.error`, `window.unhandledrejection`
+- server/runtime: `process.uncaughtException`, `process.unhandledRejection`
+
+```ts
+import {
+  ErrorBoundary,
+  installGlobalCrashReporter,
+} from "@plasius/error";
+
+const crashReporter = installGlobalCrashReporter({
+  boundaryName: "GlobalApplication",
+  analyticsClient: analytics,
+  errorContext: { app: "frontend" },
+});
+
+// later during teardown
+crashReporter.dispose();
 ```
 
 ## Development

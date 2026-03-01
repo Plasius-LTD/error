@@ -1,5 +1,5 @@
 import React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ErrorBoundary } from "../src/errorboundary.js";
 
 describe("ErrorBoundary", () => {
@@ -28,6 +28,20 @@ describe("ErrorBoundary", () => {
     expect(rendered).toBe(fallback);
   });
 
+  it("renders children when no error occurs even if fallback exists", () => {
+    const child = React.createElement("div", null, "Child");
+    const fallback = React.createElement("div", null, "Fallback UI");
+    const boundary = new ErrorBoundary({
+      name: "TestBoundary",
+      children: child,
+      fallback,
+    });
+    boundary.state = { hasError: false };
+
+    const rendered = boundary.render();
+    expect(rendered).toBe(child);
+  });
+
   it("renders default fallback message when no fallback is provided", () => {
     const boundary = new ErrorBoundary({
       name: "TestBoundary",
@@ -47,5 +61,42 @@ describe("ErrorBoundary", () => {
 
   it("sets error state via getDerivedStateFromError", () => {
     expect(ErrorBoundary.getDerivedStateFromError()).toEqual({ hasError: true });
+  });
+
+  it("reports captured errors through analytics-compatible clients", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const reportError = vi.fn();
+    const onErrorCaptured = vi.fn();
+    const boundary = new ErrorBoundary({
+      name: "TestBoundary",
+      children: React.createElement("div", null, "Child"),
+      analyticsClient: { reportError },
+      errorContext: { feature: "checkout", email: "sensitive@example.com" },
+      onErrorCaptured,
+    });
+
+    const error = new Error("boom");
+    const info = {
+      componentStack: "\n at Checkout",
+    } as React.ErrorInfo;
+
+    boundary.componentDidCatch(error, info);
+
+    expect(reportError).toHaveBeenCalledTimes(1);
+    expect(reportError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        boundary: "TestBoundary",
+        error,
+        componentStack: "\n at Checkout",
+        handled: true,
+        severity: "error",
+        context: {
+          feature: "checkout",
+          email: "sensitive@example.com",
+        },
+      })
+    );
+    expect(onErrorCaptured).toHaveBeenCalledTimes(1);
+    consoleErrorSpy.mockRestore();
   });
 });

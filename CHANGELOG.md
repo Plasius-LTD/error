@@ -9,16 +9,22 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - (placeholder)
+  - Error-boundary analytics integration hooks (`analyticsClient`, `errorContext`, `onErrorCaptured`).
+  - Exported `ErrorBoundaryReport` contract for forwarding boundary crashes to analytics clients.
+  - `installGlobalCrashReporter` for browser and process-level crash capture outside React boundaries.
 
 - **Changed**
-  - (placeholder)
+  - `ErrorBoundary` now forwards captured errors to an injected analytics-compatible client.
+  - Corrected render behavior so `fallback` is displayed only after an error is captured.
 
 - **Fixed**
-  - (placeholder)
+  - Enforced CommonJS runtime compatibility for dual-build output by generating and validating `dist-cjs/package.json` (`type: commonjs`) during build and package verification.
+  - Added tests covering analytics forwarding and no-error render behavior with fallback props.
+  - Added tests validating global crash capture (`window.error`, `window.unhandledrejection`, process exception/rejection handlers).
+  - Fixed CommonJS runtime compatibility by marking `dist-cjs/` output as `type: commonjs`, preventing `exports is not defined in ES module scope` when required by Node consumers.
 
 - **Security**
-  - (placeholder)
+  - Boundary reporting payload is constrained to essential debugging fields and delegated to analytics sanitization policies.
 
 ## [1.0.5] - 2026-02-28
 
