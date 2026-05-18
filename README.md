@@ -80,6 +80,7 @@ crashReporter.dispose();
 
 ```bash
 npm ci
+npm run typecheck
 npm run build
 npm test
 ```
