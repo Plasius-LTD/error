@@ -18,6 +18,7 @@ function main() {
   const paths = files.map((entry) => entry.path);
 
   verifyCjsMetadata();
+  ensureTarballIncludes(paths, "dist/index.d.ts");
   ensureTarballIncludes(paths, "dist-cjs/package.json");
 
   const forbiddenTarballPathPatterns = [

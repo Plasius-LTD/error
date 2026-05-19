@@ -15,6 +15,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Exposed `npm run typecheck` as the canonical TypeScript validation gate and routed audit/workflow checks through the same command.
 
 - **Fixed**
+  - Added pack-time validation that the published tarball includes the root `dist/index.d.ts` declaration entry.
   - (placeholder)
 
 - **Security**
