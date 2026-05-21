@@ -30,8 +30,7 @@
   "author": "Plasius LTD <development@plasius.co.uk>",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^19",
-    "react-router-dom": "^7.6.2"
+    "react": "^19"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
