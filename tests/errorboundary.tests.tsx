@@ -1,6 +1,11 @@
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { ErrorBoundary } from "../src/errorboundary.js";
+import {
+  errorBoundaryTranslationKeys,
+  translateErrorBoundaryText,
+} from "../src/i18n.js";
+import * as publicApi from "../src/index.js";
 
 describe("ErrorBoundary", () => {
   it("renders children when no error occurs", () => {
@@ -57,6 +62,49 @@ describe("ErrorBoundary", () => {
         : rendered.props.children;
       expect(text).toBe("TestBoundary encountered an error.");
     }
+  });
+
+  it("renders translated default fallback text when a translator is provided", () => {
+    const translate = vi.fn((key, args) => {
+      if (key === errorBoundaryTranslationKeys.defaultFallback) {
+        return `Localized fallback for ${String(args?.boundary)}`;
+      }
+
+      return undefined;
+    });
+    const boundary = new ErrorBoundary({
+      name: "TestBoundary",
+      children: React.createElement("div", null, "Child"),
+      translate,
+    });
+    boundary.state = { hasError: true };
+
+    const rendered = boundary.render();
+    expect(React.isValidElement(rendered)).toBe(true);
+    if (React.isValidElement(rendered)) {
+      expect(rendered.props.children).toBe("Localized fallback for TestBoundary");
+    }
+    expect(translate).toHaveBeenCalledWith(
+      errorBoundaryTranslationKeys.defaultFallback,
+      { boundary: "TestBoundary" }
+    );
+  });
+
+  it("falls back to bundled en-GB translations when translator returns a key", () => {
+    const message = translateErrorBoundaryText(
+      errorBoundaryTranslationKeys.defaultFallback,
+      { boundary: "AccountBoundary" },
+      (key) => key
+    );
+
+    expect(message).toBe("AccountBoundary encountered an error.");
+  });
+
+  it("exports translation helpers from the package entrypoint", () => {
+    expect(publicApi.errorBoundaryTranslationKeys.defaultFallback).toBe(
+      errorBoundaryTranslationKeys.defaultFallback
+    );
+    expect(publicApi.translateErrorBoundaryText).toBe(translateErrorBoundaryText);
   });
 
   it("sets error state via getDerivedStateFromError", () => {

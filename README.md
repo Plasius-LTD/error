@@ -30,6 +30,27 @@ npm install @plasius/error
 import { ErrorBoundary } from "@plasius/error";
 ```
 
+### Error boundary fallback translations
+
+Default fallback text is resolved through `@plasius/translations` with bundled `en-GB` copy. Consumers can pass a translator to replace the default text while preserving the existing `fallback` override:
+
+```tsx
+import { ErrorBoundary, errorBoundaryTranslationKeys } from "@plasius/error";
+
+<ErrorBoundary
+  name="CheckoutBoundary"
+  translate={(key, args) => {
+    if (key === errorBoundaryTranslationKeys.defaultFallback) {
+      return `${args?.boundary} is unavailable.`;
+    }
+
+    return undefined;
+  }}
+>
+  <CheckoutPage />
+</ErrorBoundary>;
+```
+
 ### Error reporting with `@plasius/analytics`
 
 `ErrorBoundary` can forward captured errors into an analytics-compatible client:
