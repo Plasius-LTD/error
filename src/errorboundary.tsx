@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  errorBoundaryTranslationKeys,
+  translateErrorBoundaryText,
+} from "./i18n.js";
+import type { ErrorBoundaryTranslate } from "./i18n.js";
 
 export type ErrorBoundarySeverity = "error" | "fatal";
 
@@ -16,10 +21,11 @@ export interface ErrorBoundaryAnalyticsClient {
   reportError: (report: ErrorBoundaryReport) => void;
 }
 
-interface ErrorBoundaryProps {
+export interface ErrorBoundaryProps {
   name: string;
   children: React.ReactNode;
   fallback?: React.ReactNode;
+  translate?: ErrorBoundaryTranslate;
   analyticsClient?: ErrorBoundaryAnalyticsClient;
   errorContext?: Record<string, unknown>;
   severity?: ErrorBoundarySeverity;
@@ -65,7 +71,15 @@ export class ErrorBoundary extends React.Component<
   override render() {
     if (this.state.hasError) {
       return (
-        this.props.fallback ?? <h2>{this.props.name} encountered an error.</h2>
+        this.props.fallback ?? (
+          <h2>
+            {translateErrorBoundaryText(
+              errorBoundaryTranslationKeys.defaultFallback,
+              { boundary: this.props.name },
+              this.props.translate
+            )}
+          </h2>
+        )
       );
     }
 
