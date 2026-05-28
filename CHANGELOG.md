@@ -9,9 +9,10 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - (placeholder)
+  - Added bundled `en-GB` translation keys for the default `ErrorBoundary` fallback text.
 
 - **Changed**
+  - Routed `ErrorBoundary` default fallback copy through `@plasius/translations` with an optional consumer translator override.
   - Exposed `npm run typecheck` as the canonical TypeScript validation gate and routed audit/workflow checks through the same command.
   - Removed the unused `react-router-dom` peer dependency so the published package contract only advertises the React runtime it actually consumes.
 
