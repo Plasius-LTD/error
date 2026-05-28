@@ -18,6 +18,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 - **Fixed**
   - Added pack-time validation that the published tarball includes the root `dist/index.d.ts` declaration entry.
+  - Restored the package CD workflow so protected `main` releases are prepared by PR and published without direct branch pushes.
   - (placeholder)
 
 - **Security**
