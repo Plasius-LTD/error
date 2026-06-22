@@ -1,1 +1,1 @@
-{"root":["./src/globalcrash.ts","./src/index.ts","./src/errorboundary.tsx"],"version":"6.0.3"}
+{"root":["./src/globalcrash.ts","./src/i18n.ts","./src/index.ts","./src/translations/en-gb.ts","./src/errorboundary.tsx"],"version":"6.0.3"}
