@@ -12,6 +12,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [1.0.21] - 2026-06-28
+
+- **Added**
+  - (placeholder)
+
+- **Changed**
   - Refreshed the published `@plasius/translations` dependency to `1.0.22`.
   - (placeholder)
 
@@ -241,7 +255,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/error/compare/v1.0.20...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/error/compare/v1.0.21...HEAD
 [1.0.17]: https://github.com/Plasius-LTD/error/compare/v1.0.15...v1.0.17
 
 ## [1.0.0] - 2026-02-11
@@ -270,3 +284,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [1.0.18]: https://github.com/Plasius-LTD/error/releases/tag/v1.0.18
 [1.0.19]: https://github.com/Plasius-LTD/error/releases/tag/v1.0.19
 [1.0.20]: https://github.com/Plasius-LTD/error/releases/tag/v1.0.20
+[1.0.21]: https://github.com/Plasius-LTD/error/releases/tag/v1.0.21
