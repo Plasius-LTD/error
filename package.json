@@ -33,7 +33,7 @@
     "react": "^19"
   },
   "dependencies": {
-    "@plasius/translations": "^1.0.22"
+    "@plasius/translations": "^1.0.23"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
