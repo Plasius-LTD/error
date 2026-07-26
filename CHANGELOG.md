@@ -12,12 +12,13 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
-  - (placeholder)
+  - Removed the unused React Router development dependency and refreshed transitive resolutions to clear the current npm audit findings.
 
 - **Fixed**
   - (placeholder)
 
 - **Security**
+  - Added fail-closed source and npm-package admission for the administrative contributor registry and pinned the CI/CD runtime to Node.js 24.18.0 LTS.
   - (placeholder)
 
 ## [1.0.22] - 2026-07-13
