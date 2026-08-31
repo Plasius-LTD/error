@@ -12,5 +12,15 @@ describe("development dependency alignment", () => {
     expect(packageJson.devDependencies?.["react-dom"]).toBe(
       packageJson.devDependencies?.react,
     );
+
+    const packageLock = JSON.parse(
+      readFileSync(new URL("../package-lock.json", import.meta.url), "utf8"),
+    ) as { packages?: Record<string, { version?: string }> };
+    const resolvedReact = packageLock.packages?.["node_modules/react"]?.version;
+    const resolvedReactDom =
+      packageLock.packages?.["node_modules/react-dom"]?.version;
+
+    expect(resolvedReact).toBeDefined();
+    expect(resolvedReactDom).toBe(resolvedReact);
   });
 });
