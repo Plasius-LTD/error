@@ -17,6 +17,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Enabled exact-head manual CI dispatch for reviewed release validation.
 
 - **Fixed**
+  - Kept the React and React DOM development runtimes on the same `19.2.8` baseline so component tests cannot resolve a mismatched renderer pair.
   - Disabled package-manager caching on self-hosted CI to prevent cache-save
     cleanup stalls from blocking the validation queue.
   - (placeholder)
